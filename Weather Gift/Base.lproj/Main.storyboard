@@ -84,7 +84,11 @@
         <!--PageVC-->
         <scene sceneID="MBK-Hm-ZBQ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="dfy-F1-Z5K" customClass="PageVC" customModule="Weather_Gift" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="dfy-F1-Z5K" customClass="PageVC" customModule="Weather_Gift" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="kaA-oY-pzh" kind="presentation" identifier="ToListVC" id="fbZ-66-qHS"/>
+                    </connections>
+                </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u15-Mr-czJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="54" y="-656"/>
@@ -101,23 +105,29 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="gfW-AG-5Bw">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" id="gfW-AG-5Bw">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gfW-AG-5Bw" id="eqS-wZ-o8f">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="pRZ-rf-RLb" kind="unwind" identifier="ToPageVC" unwindAction="unwindFromListVCWithSender:" id="NSd-Cw-gbZ"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zr1-1U-dCo">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zr1-1U-dCo">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="Edit" id="se2-U4-SuB"/>
+                                    <barButtonItem title="Edit" id="se2-U4-SuB">
+                                        <connections>
+                                            <action selector="editBarButtonPressed:" destination="kaA-oY-pzh" id="U76-KW-PrS"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="RF0-Rf-4wg"/>
-                                    <barButtonItem title="+" id="VUs-Ff-beB"/>
+                                    <barButtonItem systemItem="add" id="VUs-Ff-beB"/>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -126,14 +136,23 @@
                             <constraint firstItem="Xjg-bo-3gv" firstAttribute="leading" secondItem="YPR-xt-g7s" secondAttribute="leading" id="3rV-7O-hkm"/>
                             <constraint firstItem="Xjg-bo-3gv" firstAttribute="top" secondItem="YPR-xt-g7s" secondAttribute="top" id="Mfu-zg-wAN"/>
                             <constraint firstItem="Xjg-bo-3gv" firstAttribute="trailing" secondItem="YPR-xt-g7s" secondAttribute="trailing" id="QZS-Lk-vUW"/>
+                            <constraint firstItem="zr1-1U-dCo" firstAttribute="leading" secondItem="YPR-xt-g7s" secondAttribute="leading" id="W97-4A-Bjw"/>
+                            <constraint firstItem="zr1-1U-dCo" firstAttribute="trailing" secondItem="YPR-xt-g7s" secondAttribute="trailing" id="ZkF-FD-Upn"/>
                             <constraint firstItem="YPR-xt-g7s" firstAttribute="bottom" secondItem="Xjg-bo-3gv" secondAttribute="bottom" constant="44" id="cgo-hr-gNX"/>
+                            <constraint firstItem="zr1-1U-dCo" firstAttribute="bottom" secondItem="YPR-xt-g7s" secondAttribute="bottom" id="r7M-22-du9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YPR-xt-g7s"/>
                     </view>
+                    <connections>
+                        <outlet property="addBarButton" destination="VUs-Ff-beB" id="aOL-km-1Se"/>
+                        <outlet property="editBarButton" destination="se2-U4-SuB" id="aPC-UM-o8t"/>
+                        <outlet property="tableView" destination="Xjg-bo-3gv" id="G7j-KD-N7d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLY-dZ-3yZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="pRZ-rf-RLb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="845.60000000000002" y="-329.68515742128938"/>
+            <point key="canvasLocation" x="914" y="-656"/>
         </scene>
     </scenes>
 </document>
