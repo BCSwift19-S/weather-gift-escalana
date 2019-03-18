@@ -15,6 +15,7 @@
 		739561F52235CEAF0093FDB7 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739561F42235CEAF0093FDB7 /* DetailVC.swift */; };
 		739561F72235D2750093FDB7 /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739561F62235D2750093FDB7 /* ListVC.swift */; };
 		739561F92235D4E50093FDB7 /* PageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739561F82235D4E50093FDB7 /* PageVC.swift */; };
+		73D908DB223EA53600887BB9 /* WeatherLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D908DA223EA53600887BB9 /* WeatherLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		739561F42235CEAF0093FDB7 /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		739561F62235D2750093FDB7 /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
 		739561F82235D4E50093FDB7 /* PageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageVC.swift; sourceTree = "<group>"; };
+		73D908DA223EA53600887BB9 /* WeatherLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLocation.swift; sourceTree = "<group>"; };
 		DC16470F5AC80F6879FF6AE5 /* Pods_Weather_Gift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weather_Gift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -58,7 +60,6 @@
 				07264A04A7D63653A3C23806 /* Pods-Weather Gift.debug.xcconfig */,
 				0E9130AF79342ACDDE24ED2A /* Pods-Weather Gift.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -84,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				739561E22235C2890093FDB7 /* AppDelegate.swift */,
+				73D908DA223EA53600887BB9 /* WeatherLocation.swift */,
 				739561F82235D4E50093FDB7 /* PageVC.swift */,
 				739561F42235CEAF0093FDB7 /* DetailVC.swift */,
 				739561F62235D2750093FDB7 /* ListVC.swift */,
@@ -240,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73D908DB223EA53600887BB9 /* WeatherLocation.swift in Sources */,
 				739561F72235D2750093FDB7 /* ListVC.swift in Sources */,
 				739561F92235D4E50093FDB7 /* PageVC.swift in Sources */,
 				739561E32235C2890093FDB7 /* AppDelegate.swift in Sources */,

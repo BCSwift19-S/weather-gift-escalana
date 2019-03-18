@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+
 
 class DetailVC: UIViewController {
 
@@ -18,23 +20,73 @@ class DetailVC: UIViewController {
     @IBOutlet weak var currentImage: UIImageView!
     
     var currentPage = 0
-    var locationsArray = [String]()
+    var locationsArray = [WeatherLocation]()
+    var locationManger: CLLocationManager!
+    var currentLocation: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       locationLabel.text = locationsArray[currentPage]
+       locationLabel.text = locationsArray[currentPage].name
+        dateLabel.text = locationsArray[currentPage].coordinates
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if currentPage == 0 {
+            getLocation()
+        }
     }
-    */
+    func updateUserInterface(){
+        locationLabel.text = locationsArray[currentPage].name
+        dateLabel.text = locationsArray[currentPage].coordinates
+    }
+}
 
+extension DetailVC: CLLocationManagerDelegate {
+    func getLocation() {
+        locationManger = CLLocationManager()
+        locationManger.delegate = self
+        let status = CLLocationManager.authorizationStatus()
+        handleLocationAuthorizationStatus(status: status)
+    }
+    func handleLocationAuthorizationStatus(status: CLAuthorizationStatus){
+        switch status{
+        case .notDetermined: locationManger.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorizedWhenInUse: locationManger.requestLocation()
+        case .denied: print("Sorry, can't show location. User has not authorized it")
+        case .restricted: print("Access denied. Likely parental controls are restrict location services in this app.")
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        handleLocationAuthorizationStatus(status: status)
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let geoCoder = CLGeocoder()
+        var place = ""
+        currentLocation = locations.last
+        let currentLatitude = currentLocation.coordinate.latitude
+        let currentLongitude = currentLocation.coordinate.longitude
+        let currentCoordinates = "\(currentLatitude), \(currentLongitude)"
+        print(currentCoordinates)
+        dateLabel.text = currentCoordinates
+        geoCoder.reverseGeocodeLocation(currentLocation, completionHandler:
+            {placemarks, error in
+                if placemarks != nil {
+                    let placemarks = placemarks?.last
+                    place = (placemarks?.name)!
+                } else {
+                    print("Error retriving place. Error: \(error!)")
+                    place = "Unknown Weather Location"
+                }
+                self.locationsArray[0].name = place
+                self.locationsArray[0].coordinates = currentCoordinates
+                self.updateUserInterface()
+                
+        })
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("failed to get user location")
+    }
+    
 }

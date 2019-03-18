@@ -11,7 +11,7 @@ import GooglePlaces
 
 class ListVC: UIViewController {
     
-    var locationsArray = [String] ()
+    var locationsArray = [WeatherLocation] ()
     var currentPage = 0
     
     @IBOutlet weak var tableView: UITableView!
@@ -60,6 +60,7 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath)
+        cell.textLabel?.text = locationsArray[indexPath.row].name
         return cell
     }
     //MARK: - tableView Editing Functions
@@ -100,7 +101,13 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource{
     }
     func updateTable(place: GMSPlace) {
         let newIndexPath = IndexPath(row: locationsArray.count, section: 0)
-        locationsArray.append(place.name!)  // i dont understand how this is wrong
+        var newWeatherLocation = WeatherLocation()
+        newWeatherLocation.name = place.name!
+        let latitude = place.coordinate.latitude
+        let longitude = place.coordinate.longitude
+        newWeatherLocation.coordinates = "\(latitude), \(longitude)"
+        print(newWeatherLocation.coordinates)
+        locationsArray.append(newWeatherLocation)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
         
     }
