@@ -9,6 +9,11 @@
 import UIKit
 import CoreLocation
 
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "EEEE, MMM dd, y"
+    return dateFormatter
+}()
 
 class DetailVC: UIViewController {
 
@@ -18,6 +23,7 @@ class DetailVC: UIViewController {
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var currentImage: UIImageView!
+    @IBOutlet weak var tableView: UITableView!
     
     var currentPage = 0
     var locationsArray = [WeatherLocation]()
@@ -35,18 +41,30 @@ class DetailVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        tableView.delegate = self
+        tableView.dataSource = self
         if currentPage == 0 {
             getLocation()
         }
     }
     func updateUserInterface(){
-        locationLabel.text = locationsArray[currentPage].name
-        dateLabel.text = locationsArray[currentPage].coordinates
-        tempLabel.text = locationsArray[currentPage].currentTemp
-        summaryLabel.text = locationsArray[currentPage].currentSummary
-        currentImage.image = UIImage(named: locationsArray[currentPage].currentIcon)
-        print("%%%% currentTemp inside updateUserInterface = \(locationsArray[currentPage].currentTemp)")  // keeping this for myself
+        let location = locationsArray[currentPage]
+        locationLabel.text = location.name
+//        let dateString = formatTimeForTimeZone(unixDate: location.currentTime, timeZone: location.timeZone)
+        let dateString = location.currentTime.format(timeZone: location.timeZone, dateFormatter: dateFormatter)
+        dateLabel.text = dateString
+        tempLabel.text = location.currentTemp
+        summaryLabel.text = location.dailySummary
+        currentImage.image = UIImage(named: location.currentIcon)
+        print("%%%% currentTemp inside updateUserInterface = \(location.currentTemp)")  // keeping this for myself
+        tableView.reloadData()
     }
+//    func formatTimeForTimeZone(unixDate: TimeInterval, timeZone: String) -> String  {
+//        let usableDate = Date(timeIntervalSince1970: unixDate)
+//        dateFormatter.timeZone = TimeZone(identifier: timeZone)
+//        let dateString = dateFormatter.string(from: usableDate)
+//        return dateString
+//    }
 }
 
 extension DetailVC: CLLocationManagerDelegate {
@@ -96,6 +114,23 @@ extension DetailVC: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("failed to get user location")
+    }
+    
+}
+extension DetailVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return locationsArray[currentPage].dailyForecastArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DayWeatherCell", for: indexPath )
+       // cell.update(with: locationsArray[currentPage].dailyForecastArray[indexPath.row]) // i declared my func in DayWeatherCell.swift  -- I think it's supposed to work but not sure what is wrong
+        cell.update(with: dailyForecast, timeZone: timezone)  //  dont understand error here
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
     
 }
